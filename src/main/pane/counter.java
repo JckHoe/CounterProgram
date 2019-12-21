@@ -1,5 +1,6 @@
 package main.pane;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.Scanner;
@@ -23,7 +24,7 @@ public class counter extends Application{
 	public static String dataFilePath = "src/main/cache/.data.txt";
 
 	public void start(Stage primaryStage){
-		java.io.File file = new java.io.File(dataFilePath);
+		File file = new File(dataFilePath);
 		Scanner input = null;
 		try {
 			input = new Scanner(file);
@@ -50,7 +51,7 @@ public class counter extends Application{
 		create.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				int tempAmount = 0;
-				java.io.File file = new java.io.File(dataFilePath);
+				File file = new File(dataFilePath);
 				Scanner input = null;
 				try {
 					input = new Scanner(file);
