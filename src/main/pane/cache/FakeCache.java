@@ -33,8 +33,8 @@ public class FakeCache extends BaseCache {
         }
     }
 
-    public Optional<Integer> addCount(int amount) {
-        amount = amount + 1;
+    public Optional<Integer> addCount(int amount, int increaseAmount) {
+        amount = amount + increaseAmount;
         try (
                 PrintWriter output = new PrintWriter(readFakeCache().get());
         ) {

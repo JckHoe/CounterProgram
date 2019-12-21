@@ -1,11 +1,14 @@
 package main.pane;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -14,6 +17,8 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import main.pane.cache.FakeCache;
+
+import java.util.ArrayList;
 
 public class Counter extends Application {
 
@@ -47,13 +52,31 @@ public class Counter extends Application {
         error.setStyle("-fx-text-fill: Red");
         error.setFont(font0);
 
+        ArrayList<Integer> amountList = new ArrayList<>();
+        for (int i = 1; i <= 10; i++) {
+            amountList.add(i);
+        }
+
+        GridPane amountSelectionPane = new GridPane();
+        amountSelectionPane.setAlignment(Pos.CENTER);
+        amountSelectionPane.setPadding(new Insets(20, 20, 20, 20));
+        amountSelectionPane.setVgap(5);
+        Label cb1Label = new Label("Increase Amount : ");
+        cb1Label.setStyle("-fx-text-fill: Green");
+        cb1Label.setFont(font0);
+        final ComboBox<String> cb1 = new ComboBox(collection(amountList));
+        cb1.getSelectionModel().select(0);
+
+        amountSelectionPane.add(cb1Label, 0, 0);
+        amountSelectionPane.add(cb1, 1, 0);
+
         Button add = new Button("Add Count + ");
         add.setId("shinyOrange");
         add.setOnAction(event -> {
             checkCount(lb);
             error.setText("");
             lb.setText(String.valueOf(cache
-                    .addCount(Integer.parseInt(lb.getText()))
+                    .addCount(Integer.parseInt(lb.getText()), cb1.getSelectionModel().getSelectedIndex() + 1)
                     .get()
             ));
         });
@@ -63,7 +86,7 @@ public class Counter extends Application {
                 error.setText("");
                 checkCount(lb);
                 lb.setText(String.valueOf(cache
-                        .addCount(Integer.parseInt(lb.getText()))
+                        .addCount(Integer.parseInt(lb.getText()), cb1.getSelectionModel().getSelectedIndex() + 1)
                         .get()
                 ));
             } else if (e.getCode() == KeyCode.BACK_SPACE) {
@@ -107,16 +130,18 @@ public class Counter extends Application {
 
         pane.add(desc, 0, 0);
         pane.add(lb, 0, 1);
-        pane.add(add, 0, 2);
-        pane.add(minus, 0, 3);
-        pane.add(reset, 0, 4);
-        pane.add(error, 0, 5);
+        pane.add(amountSelectionPane, 0, 2);
+        pane.add(add, 0, 3);
+        pane.add(minus, 0, 4);
+        pane.add(reset, 0, 5);
+        pane.add(error, 0, 6);
 
         GridPane.setHalignment(add, HPos.CENTER);
         GridPane.setHalignment(reset, HPos.CENTER);
         GridPane.setHalignment(lb, HPos.CENTER);
         GridPane.setHalignment(minus, HPos.CENTER);
         GridPane.setHalignment(error, HPos.CENTER);
+        GridPane.setHalignment(amountSelectionPane, HPos.CENTER);
 
         Scene scene = new Scene(pane, 400, 500);
         scene.getStylesheets().add("main/resource/style.css");
@@ -137,6 +162,11 @@ public class Counter extends Application {
         } else {
             lb.setFont(font2);
         }
+    }
+
+    private ObservableList<?> collection(ArrayList<?> option) {
+        ObservableList<?> options = FXCollections.observableArrayList(option);
+        return options;
     }
 
     public void start(Stage primaryStage) {

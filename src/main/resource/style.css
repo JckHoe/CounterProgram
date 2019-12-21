@@ -30,3 +30,17 @@
     -fx-font-size: 16px;
     -fx-text-fill: white;
 }
+
+.combo-box-base {
+    -fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, lightgreen;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;
+}
+
+.cb .menu-item:focused {
+    -fx-background-color: yellow ;
+}
+.combo-box-popup .list-cell {
+    -fx-background-color: darkblue;
+    -fx-text-fill: lightblue;
+}
